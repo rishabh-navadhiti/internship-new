@@ -1,6 +1,6 @@
 # internship-new
 
-New repo with updated and improved project structure.
+*New repo with updated and improved project structure for better node package management for each project and easier git tracking*
 
 **Completed Shopping express app is directly added to the repo**
 
