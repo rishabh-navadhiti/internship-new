@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -401,29 +402,43 @@
     </div>
 
     <script>
-        let tasks = [
-            {
-                name: "Complete Project Report",
-                description: "Finalize the quarterly project report with all metrics",
-                priority: "High",
-                status: "In Progress",
-                dueDate: "2025-06-05"
-            },
-            {
-                name: "Team Meeting",
-                description: "Weekly team sync meeting to discuss progress",
-                priority: "Medium",
-                status: "Pending",
-                dueDate: "2025-06-01"
-            },
-            {
-                name: "Update Documentation",
-                description: "Update user manual and API documentation",
-                priority: "Low",
-                status: "Completed",
-                dueDate: "2025-05-28"
-            }
-        ];
+        loadTasks();
+
+        function loadTasks() {
+            axios.get('/tasks').then(res => {
+                let tasks = res.data;
+                console.log(tasks);
+                renderTable(tasks);
+            })
+        }
+
+        function renderTable(tasks) {
+            const tbody = document.querySelector('#taskTable tbody');
+            tbody.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const row = document.createElement('tr');
+                
+                const priorityClass = `priority-${task.priority.toLowerCase()}`;
+                const statusClass = `status-${task.status.toLowerCase().replace(' ', '')}`;
+                
+                row.innerHTML = `
+                    <td>${task.name}</td>
+                    <td title="${task.description}">${task.description}</td>
+                    <td><span class="${priorityClass}">${task.priority}</span></td>
+                    <td><span class="status-badge ${statusClass}">${task.status}</span></td>
+                    <td>${task.dueDate}</td>
+                    <td>
+                        <button class="btn edit-btn" onclick="editTask(this)">Edit</button>
+                        <button class="btn delete-btn" onclick="deleteTask(this)">Delete</button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+
 
         let editingIndex = -1;
 
@@ -469,41 +484,23 @@
                 dueDate: formData.get('taskDueDate')
             };
 
+            axios.post('/tasks', newTask).then(res => {
+                console.log('Task saved:', res.data);
+            }).catch(err => {
+                console.error('Error saving task:', err);
+            })
+
             if (editingIndex >= 0) {
                 tasks[editingIndex] = newTask;
             } else {
                 tasks.push(newTask);
             }
 
-            renderTable();
+            loadTasks();
             closeModal();
         });
 
-        function renderTable() {
-            const tbody = document.querySelector('#taskTable tbody');
-            tbody.innerHTML = '';
-
-            tasks.forEach((task, index) => {
-                const row = document.createElement('tr');
-                
-                const priorityClass = `priority-${task.priority.toLowerCase()}`;
-                const statusClass = `status-${task.status.toLowerCase().replace(' ', '')}`;
-                
-                row.innerHTML = `
-                    <td>${task.name}</td>
-                    <td>${task.description}</td>
-                    <td><span class="${priorityClass}">${task.priority}</span></td>
-                    <td><span class="status-badge ${statusClass}">${task.status}</span></td>
-                    <td>${task.dueDate}</td>
-                    <td>
-                        <button class="btn edit-btn" onclick="editTask(this)">Edit</button>
-                        <button class="btn delete-btn" onclick="deleteTask(this)">Delete</button>
-                    </td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-        }
+        
     </script>
 </body>
 </html>
