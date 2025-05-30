@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 // fire base admin initialization and service account
 
@@ -12,10 +13,12 @@ const db = admin.firestore();
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello, Firebase APP!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/tasks', async(req, res) => {
