@@ -429,8 +429,8 @@
                     <td><span class="status-badge ${statusClass}">${task.status}</span></td>
                     <td>${task.dueDate}</td>
                     <td>
-                        <button class="btn edit-btn" onclick="editTask(this)">Edit</button>
-                        <button class="btn delete-btn" onclick="deleteTask(this)">Delete</button>
+                        <button class="btn edit-btn" onclick="editTask('${task.id}')">Edit</button>
+                        <button class="btn delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
                     </td>
                 `;
                 
@@ -453,14 +453,17 @@
             document.getElementById('taskModal').style.display = 'none';
         }
 
-        function editTask(button) {
-            // For now, just show an alert - you can implement actual edit functionality later
-            alert('Edit functionality will be implemented here');
+        function editTask(id) {
+            
         }
 
-        function deleteTask(button) {
-            // For now, just show an alert - you can implement actual delete functionality later
-            alert('Delete functionality will be implemented here');
+        function deleteTask(id) {
+            axios.delete('/tasks/' + id).then(res => {
+                console.log('Task deleted:', res.data);
+                loadTasks();
+            }).catch(err => {
+                console.log('Error deleting task:', err);
+            });
         }
 
         // Close modal when clicking outside
@@ -490,11 +493,11 @@
                 console.error('Error saving task:', err);
             })
 
-            if (editingIndex >= 0) {
-                tasks[editingIndex] = newTask;
-            } else {
-                tasks.push(newTask);
-            }
+            // if (editingIndex >= 0) {
+            //     tasks[editingIndex] = newTask;
+            // } else {
+            //     tasks.push(newTask);
+            // }
 
             loadTasks();
             closeModal();
