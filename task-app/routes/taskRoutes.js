@@ -7,7 +7,7 @@ const path = require('path');
 // fire base admin initialization and service account
 
 const admin = require('firebase-admin');
-const serviceAccount = require('..test-project-f4196-firebase-adminsdk-fbsvc-533eab065e.json');
+const serviceAccount = require('../test-project-f4196-firebase-adminsdk-fbsvc-362b04f55e.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -37,6 +37,19 @@ router.get('/tasks', async(req, res) => {
     }
 });
 
+router.get('/tasks/:id', async (req, res) => {
+    const taskId = req.params.id;
+
+    try {    
+        const doc = await db.collection('tasks').doc(taskId).get()
+        const task = {id: doc.id , ...doc.data()}
+        res.status(200).send(task);
+    } catch (err) {
+        console.log("Error retrieving task:", err);
+        res.status(500).send({error: 'Failed to fetch the task', details: err.message})
+    }
+});
+
 
 router.delete('/tasks/:id', async (req, res) => {
   try {
@@ -50,3 +63,5 @@ router.delete('/tasks/:id', async (req, res) => {
     res.status(500).send({ error: 'Failed to delete task', details: err.message });
   }
 });
+
+module.exports = router;
