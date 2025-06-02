@@ -1,10 +1,10 @@
 const request = require('../config/firebase');
 
-async function createUser(id, user) {
+async function createUser(user) {
   return request('POST', '', {
     fields: {
-      fname: { stringValue: user.firstName },
-      lname: { stringValue: user.lastName },
+      fName: { stringValue: user.fName },
+      lName: { stringValue: user.lName },
       email: { stringValue: user.email },
       password: { stringValue: user.password },
       isActive: { booleanValue: true }
@@ -13,10 +13,17 @@ async function createUser(id, user) {
 }
 
 async function updateUser(id, data) {
-  return request('PATCH', `/${id}`, {
-    fields: Object.fromEntries(
-      Object.entries(data).map(([k, v]) => [k, typeof v === 'string' ? { stringValue: v } : { booleanValue: v }])
-    )
+  const user = await request('GET', `/${id}`, null); 
+  const fieldsToUpdate = structuredClone(user.data.fields);
+  // const fieldsToUpdate = {};
+
+  if ('fName' in data) fieldsToUpdate.fName = { stringValue: data.fName };
+  if ('lName' in data) fieldsToUpdate.lName = { stringValue: data.lName };
+  if ('email' in data) fieldsToUpdate.email = { stringValue: data.email };
+  if ('isActive' in data) fieldsToUpdate.isActive = { booleanValue: data.isActive };
+
+  return request('PATCH', `/${id}?updateMask.fieldPaths=fName&updateMask.fieldPaths=lName&updateMask.fieldPaths=email&updateMask.fieldPaths=isActive`, {
+    fields: fieldsToUpdate
   });
 }
 

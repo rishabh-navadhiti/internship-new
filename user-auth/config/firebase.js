@@ -3,7 +3,7 @@ const getAccessToken = require('./getAccessToken');
 const DB_BASEURL = process.env.FIREBASE_URL;
 
 async function requestWithToken(method, url, data) {
-  const token = getAccessToken();
+  const token = await getAccessToken();
   console.log(DB_BASEURL);
   
   return axios({
@@ -13,3 +13,5 @@ async function requestWithToken(method, url, data) {
     data
   });
 }
+
+module.exports = requestWithToken;
