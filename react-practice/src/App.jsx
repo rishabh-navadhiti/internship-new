@@ -13,7 +13,7 @@ export default function App() {
   const myName = "Rishabh";
   return (
     <div>
-      <Header name = {myName}/>
+      <Header name = {myName} />
       <Content styles={contentStyle} />
       <Footer />
     </div>
