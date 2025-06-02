@@ -1,12 +1,20 @@
 const express = require('express');
 const getAccessToken = require('./googleAuth');
 const axios = require('axios');
+const z = require('zod/v4')
 
-const DB_BASEURL = 'https://firestore.googleapis.com/v1/projects/ user-cred-a841c /databases/(default)/documents/users';
+
 
 const app = express();
 
 app.use(express.json());
+
+const registerSchema = z.object({
+  fname: z.string().min(1),
+  lname: z.string().min(1),
+  email: z.email(),
+  password: z.string().min(6)
+});
 
 app.post('/register', async (req, res) => {
 
@@ -37,3 +45,7 @@ app.post('/register', async (req, res) => {
 
 
 
+app.listen(3000, () => {
+  console.log('Express listening on port 3000');
+  
+})
