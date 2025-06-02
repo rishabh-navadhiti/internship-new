@@ -19,3 +19,6 @@ A task mangement page to view all tasks, details, their priority, progress, due 
 Features to edit them, delete them, or add a new task.
 
 Check out the project folder for details.
+
+
+### User authentication system
