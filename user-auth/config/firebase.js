@@ -4,6 +4,8 @@ const DB_BASEURL = process.env.FIREBASE_URL;
 
 async function requestWithToken(method, url, data) {
   const token = getAccessToken();
+  console.log(DB_BASEURL);
+  
   return axios({
     method,
     url: `${DB_BASEURL}${url}`,
