@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^7.1.1"
+  }
+}
