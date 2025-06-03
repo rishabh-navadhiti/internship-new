@@ -7,9 +7,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-
 
 
 const App = () => {
