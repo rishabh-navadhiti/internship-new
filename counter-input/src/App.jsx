@@ -1,44 +1,49 @@
 import { useState } from "react";
-import Button from "./components/Button";
+// import Button from "./components/Button";
+import Counter from './components/Counter';
+import InputText from './components/InputText';
+import './App.css'
+import '@fontsource/inter';
+import Card from '@mui/material/Card';
+import { CardContent } from "@mui/material";
+
 
 function App() {
-  const [counter, setCounter] = useState(0);
   const [textInput, setTextInput] = useState('');
+  const [counter, setCounter] = useState(0);
   const [time, setTime] = useState(getTime())
 
-  function getTime() {
-    return new Date().toLocaleString().split(' ')[1]
-  }
+      function getTime() {
+        return new Date().toLocaleString().split(' ')[1]
+    }
 
-  const handleIncrement = () => {
-    setCounter(counter + 1); 
-    setTime(getTime());
-  };
+    const handleIncrement = () => {
+        setCounter(counter + 1); 
+        setTime(getTime());
+    };
 
-  const handleDecrement = () => {
-    setCounter(counter - 1);
-    setTime(getTime());
-  }
+    const handleDecrement = () => {
+        setCounter(counter - 1);
+        setTime(getTime());
+    }
+
   const handleChange = (e) => setTextInput(e.target.value);
 
+  const handleReset = () => {
+    setCounter(0);
+    setTextInput('');
+  }
   return (
 
-
-
-    <div className="container">
-      <div className="counter-container">
-        <div>{counter}</div>
-        <Button text="+" onClick={handleIncrement} />
-        <Button text="-" onClick={handleDecrement} />
-        <div>Counter last updated at: {time}</div>
+    <Card sx={{maxWidth: '400px'}}>
+    <CardContent>
+      <div className="container">
+            <Counter counter={counter} time={time} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>
+          <InputText textInput={textInput} handleChange={handleChange}/>
+        <button onClick={handleReset}>Reset</button>
       </div>
-
-      <div className="input-container">
-        <label htmlFor="disp">Enter some text: </label>
-        <input type="text" id="disp" value={textInput} onChange={handleChange}/>  
-        <div>Your input: {textInput}</div>
-      </div>
-    </div>
+    </CardContent>
+    </Card>
   );
   
 }
