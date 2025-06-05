@@ -7,7 +7,7 @@ const path = require('path');
 // fire base admin initialization and service account
 
 const admin = require('firebase-admin');
-const serviceAccount = require('../test-project-f4196-firebase-adminsdk-fbsvc-362b04f55e.json');
+const serviceAccount = require('/home/rishabh/Development/internship-new/task-app/test-project-f4196-firebase-adminsdk-fbsvc-0aa5d1813e.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -50,6 +50,19 @@ router.get('/tasks/:id', async (req, res) => {
     }
 });
 
+router.put('/tasks/:id', async (req, res) => {
+    const taskId = req.params.id;
+    console.log(req.body);
+    
+    try {
+        await db.collection('tasks').doc(taskId).set(req.body, { merge: true });
+        res.status(200).send({message: 'Task updated successfully'});
+    } catch (err) {
+        res.status(500).send({error: `Failed to update task`, details: err.message})
+    }
+    
+
+})
 
 router.delete('/tasks/:id', async (req, res) => {
   try {

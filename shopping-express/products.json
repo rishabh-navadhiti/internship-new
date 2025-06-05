@@ -27,21 +27,12 @@
     "id": "XgleP"
   },
   {
-    "name": "Tshirt",
-    "description": "Very comfortable",
-    "category": "Clothing",
-    "price": 500,
-    "stock": 1,
+    "name": "Casio A158 Watch",
+    "description": "A very durable, affordable watch, time less look.",
+    "category": "Watches",
+    "price": 2450,
+    "stock": 50,
     "status": "In Stock",
-    "id": "YJuKU"
-  },
-  {
-    "name": "Basketball Net",
-    "description": "A very durable net long lasting",
-    "category": "Sports",
-    "price": 1200,
-    "stock": 48,
-    "status": "In Stock",
-    "id": "PUnay"
+    "id": "Cqtzr"
   }
 ]

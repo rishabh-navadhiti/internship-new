@@ -4,6 +4,8 @@ function loadTasks() {
     axios.get('/tasks').then(res => {
         let tasks = res.data;
         renderTable(tasks);
+        console.log(tasks);
+        
     })
 }
 
@@ -33,13 +35,12 @@ function renderTable(tasks) {
     });
 }
 
-let editingIndex = -1;
+let edit = {value: false};
 
 function openModal() {
     document.getElementById('taskModal').style.display = 'block';
     document.getElementById('modalTitle').textContent = 'Add New Task';
     document.getElementById('taskForm').reset();
-    editingIndex = -1;
 }
 
 function closeModal() {
@@ -47,9 +48,19 @@ function closeModal() {
 }
 
 function editTask(id) {
+  edit.value = true;  
+  edit.id = id;
   axios.get(`/tasks/${id}`).then(res => {
     const editTask = res.data;
-    alert(editTask.name);
+    openModal();
+    document.getElementById('modalTitle').textContent = `Edit Task`;
+
+    document.getElementById('taskName').value = editTask.name;
+    document.getElementById('taskDescription').value = editTask.description;
+    document.getElementById('taskPriority').value = editTask.priority;
+    document.getElementById('taskStatus').value = editTask.status;
+    document.getElementById('taskDueDate').value = editTask.dueDate;
+    // alert(editTask.name);  
   });       
 }
 
@@ -82,12 +93,21 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
         status: formData.get('taskStatus'),
         dueDate: formData.get('taskDueDate')
     };
-
-    axios.post('/tasks', newTask).then(res => {
-        console.log('Task saved:', res.data);
-    }).catch(err => {
-        console.error('Error saving task:', err);
-    })
+    
+    if(edit.value) {
+        axios.put(`/tasks/${edit.id}`, newTask).then(res => {
+            console.log('Task Updated ', res.data );
+        }).catch (err => {
+            console.log('Error Saving edit ', err);    
+        })
+    } else {
+        axios.post('/tasks', newTask).then(res => {
+            console.log('Task saved:', res.data);
+        }).catch(err => {
+            console.error('Error saving task:', err);
+        })
+    }
+    
 
     // if (editingIndex >= 0) {
     //     tasks[editingIndex] = newTask;
