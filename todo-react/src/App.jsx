@@ -73,7 +73,7 @@ function App() {
                 </Box>
 
 
-                
+
                 <Box sx={{marginTop: '40px'}}>    
                     <Box
                         display="flex"
@@ -100,7 +100,7 @@ function App() {
                     {!open ? tasks.filter(task => task.completed).map(task => {
                         return(
                             <Stack key={task.id} direction='row' sx={{marginTop: '10px', justifyContent: 'space-between', borderBottom: '1px solid #ccc', paddingBottom: '10px'}}>
-                                <Typography variant='h5' sx={{textDecoration: 'line-through', color: '#525252'}}><Checkbox checked={task.completed} onChange={handleCheck(task.id)}/>abcd</Typography>
+                                <Typography variant='h5' sx={{textDecoration: 'line-through', color: '#525252'}}><Checkbox checked={task.completed} onChange={handleCheck(task.id)}/>{task.details}</Typography>
                             </Stack>
                         )
                     }) : <></>}
