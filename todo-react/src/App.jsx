@@ -1,6 +1,8 @@
-import { Box, Typography, TextField, Card, Stack, Button, Checkbox, IconButton } from '@mui/material'
+import { Box, Typography, TextField, Card, Stack, Button, Checkbox, IconButton, Switch } from '@mui/material'
 import { useState } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 function App() {
@@ -55,8 +57,8 @@ function App() {
 
 
                 <Box component='form' sx={{marginTop: '20px', justifyContent: 'space-between', display: 'flex', gap: '10px'}} onSubmit={handleSubmit}>
-                    <TextField required={true} variant='outlined' id='taskInput' sx={{borderColor: '#fffffff', width: '80%'}} value={input} onChange={handleChange}/> 
-                    <Button type='submit' variant='contained' color='primary' sx={{padding: '4px 30px'}}>Add Task</Button>
+                    <TextField required={true} variant='outlined' id='taskInput' sx={{borderColor: '#fffffff', width: '85%'}} value={input} onChange={handleChange}/> 
+                    <Button type='submit' variant='contained' color='primary' >Add Task</Button>
                 </Box> 
 
 
@@ -64,9 +66,36 @@ function App() {
                 <Box sx={{marginTop: '40px'}}>
                     {tasks.filter(task => !task.completed).map(task => {
                         return(
-                            <Stack key={task.id} direction='row' sx={{marginTop: '10px', justifyContent: 'space-between', borderBottom: '1px solid #ccc', paddingBottom: '10px'}}>
-                                <Typography variant='h5'><Checkbox checked={task.completed} onChange={handleCheck(task.id)}/>{task.details}</Typography>
-                                <Button variant='outlined' color='error' onClick={handleDelete(task.id)}>Delete</Button>
+                            // <Stack key={task.id} direction='row' sx={{marginTop: '10px', justifyContent: 'space-between', borderBottom: '1px solid #ccc', paddingBottom: '10px'}}>
+                            //     <Typography variant='h5'><Checkbox checked={task.completed} onChange={handleCheck(task.id)}/>{task.details}</Typography>
+                            //     <Button variant='outlined' color='error' onClick={handleDelete(task.id)}>Delete</Button>
+                            // </Stack>
+                            <Stack 
+                                key={task.id} 
+                                direction="row" 
+                                sx={{
+                                    marginTop: '10px', 
+                                    justifyContent: 'space-between', 
+                                    borderBottom: '1px solid #ccc', 
+                                    paddingBottom: '10px',
+                                    alignItems: 'center'
+                                }}
+                                >
+                                <Typography variant="h5">
+                                    {task.details}
+                                </Typography>
+
+                                <Stack direction="row" spacing={2} alignItems="center">
+                                    <Switch
+                                    checked={task.completed}
+                                    onChange={handleCheck(task.id)}
+                                    color="primary"
+                                    />
+                                    <IconButton color="error" onClick={handleDelete(task.id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+
+                                </Stack>
                             </Stack>
                         )
                     })}
