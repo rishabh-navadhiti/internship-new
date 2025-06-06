@@ -20,4 +20,4 @@ const InputText = ({textInput, handleChange}) => {
     )
 }
 
-export default InputText;   
+export default InputText;
