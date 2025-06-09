@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "Task Manager App",
+        "description": "A simple task manager built with Express backend and Firebase database. Allows users to add, update, and delete tasks.",
+        "image": "https://www.chanty.com/blog/wp-content/uploads/2020/12/nTask.png"
+    },
+    {
+        "id": 2,
+        "title": "Inventory Management System",
+        "description": "A product inventory management app using Express and Firebase with plain HTML, CSS, and JavaScript for the frontend.",
+        "image": "https://res.cloudinary.com/daog6scxm/image/upload/v1687525689/cms/inventory-management-app/Inventory_Management_App_4_llpjir.webp"
+    },
+    {
+        "id": 3,
+        "title": "User Authentication API",
+        "description": "REST API for login and registration using Express and Firebase, secured with JWT and bcrypt password hashing.",
+        "image": "https://cdn.sanity.io/images/3jwyzebk/production/c098fa07deca1062e013d92cabba4ba7ec7e7f19-1584x988.png"
+    },
+    {
+        "id": 4,
+        "title": "Portfolio Website",
+        "description": "A single-page portfolio application built with React and Material UI to showcase projects and contact information.",
+        "image": "https://uploads.sitepoint.com/wp-content/uploads/2019/04/155530806117.jpg"
+    }
+]

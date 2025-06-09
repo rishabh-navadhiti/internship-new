@@ -346,7 +346,7 @@ export default function PortfolioPage() {
         }}
       >
         <Typography variant="body1">
-          © 2025 John Developer. All rights reserved.
+          © 2025 Rishabh. All rights reserved.
         </Typography>
       </Box>
     </Box>
