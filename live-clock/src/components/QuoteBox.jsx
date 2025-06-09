@@ -16,7 +16,7 @@ function QuoteBox({sx}) {
     const data = await getQuote();
     console.log(data);
     
-    setQuote(data.quote);
+    setQuote('"' + data.quote + '"');
     setAuthor(data.author);
     setLoading(false);
   };
@@ -30,7 +30,7 @@ function QuoteBox({sx}) {
         </>
       ) : (
         <>
-          <Typography variant='body1'>"{quote}"</Typography>
+          <Typography variant='body1'>{quote}</Typography>
           <Typography variant='body2' sx={{fontStyle: 'italic'}}>— {author}</Typography>
         </>
       )}
