@@ -7,14 +7,16 @@ import {
   CardContent,
   IconButton,
 } from "@mui/material";
+import { ThemeContext } from "../contexts/ThemeContext";
+import { useContext } from "react";
 
 const About = () => {
+  const { theme } = useContext(ThemeContext)
   return (
     <Box
       id="about"
       sx={{
         py: 8,
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
       }}
     >
       <Container maxWidth="lg">
@@ -25,7 +27,7 @@ const About = () => {
           gutterBottom
           sx={{
             fontWeight: "bold",
-            color: "#333",
+            color: theme.headingColor,
             mb: 6,
           }}
         >
@@ -35,8 +37,8 @@ const About = () => {
         <Card
           sx={{
             height: "100%",
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            color: "white",
+            background: theme.headerBackground,
+            color: theme.headerColor,
             "&:hover": {
               transform: "translateY(-10px)",
               boxShadow: "0 20px 40px rgba(102, 126, 234, 0.4)",

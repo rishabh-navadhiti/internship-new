@@ -10,7 +10,8 @@ import {
   CardActions,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import { ThemeContext } from "../contexts/ThemeContext";
+import { useContext } from "react";
 // const projectData = await fetch('')
 
 const projectData = [
@@ -48,11 +49,12 @@ const projectData = [
 ];
 
 const Projects = () => {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <Box
       sx={{
         py: 8,
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
       }}
     >
       <Container maxWidth="lg">
@@ -61,12 +63,13 @@ const Projects = () => {
           textAlign="center"
           gutterBottom
           fontWeight="bold"
+          sx={{ color: theme.headingColor }}
         >
           My Projects
         </Typography>
         <Typography
           variant="subtitle1"
-          color="text.secondary"
+          color={theme.bodyColor}
           textAlign="center"
           mb={6}
         >
@@ -85,19 +88,16 @@ const Projects = () => {
               md: "repeat(2, 1fr)",
             },
             maxWidth: "1000px",
-            padding: {xs: '2', sm:4},
+            padding: { xs: "2", sm: 4 },
             margin: "0 auto",
             gap: 8,
           }}
         >
           {projectData.map((project) => (
-            <Grid
-              
-              key={project.id}
-              sx={{ display: "flex" }}
-            >
+            <Grid key={project.id} sx={{ display: "flex" }}>
               <Card
                 sx={{
+                  backgroundColor: theme.cardBackgroundColor,
                   px: 2,
                   py: 2,
                   display: "flex",
@@ -124,12 +124,13 @@ const Projects = () => {
                     fontWeight="bold"
                     gutterBottom
                     noWrap
+                    color={theme.headingColor}
                   >
                     {project.title}
                   </Typography>
                   <Typography
                     variant="body2"
-                    color="text.secondary"
+                    color={theme.bodyColor}
                     sx={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -142,7 +143,27 @@ const Projects = () => {
                   </Typography>
                 </CardContent>
                 <CardActions sx={{ p: 2, justifyContent: "flex-start" }}>
-                  <Button component={Link} to={`/projects/${project.id}`}>
+                  {/* <Button component={Link} to={`/projects/${project.id}`}>
+                    View Details
+                  </Button> */}
+                  <Button
+                    component={Link}
+                    to={`/projects/${project.id}`}
+                    sx={{
+                      color: theme.defaultButtonColor,
+                      fontWeight: 600,
+                      textTransform: "none",
+                      borderRadius: 2,
+                      py: 1,
+                      px: 2,
+                      "&:hover": {
+                        backgroundColor: theme.defaultButtonHoverBg,
+                        color: theme.defaultButtonHoverColor,
+                        transform: "translateY(-1px)",
+                      },
+                      transition: "all 0.3s ease",
+                    }}
+                  >
                     View Details
                   </Button>
                 </CardActions>

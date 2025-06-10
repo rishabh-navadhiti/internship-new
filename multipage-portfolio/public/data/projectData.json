@@ -1,26 +1,66 @@
 [
-    {
-        "id": 1,
-        "title": "Task Manager App",
-        "description": "A simple task manager built with Express backend and Firebase database. Allows users to add, update, and delete tasks.",
-        "image": "https://www.chanty.com/blog/wp-content/uploads/2020/12/nTask.png"
-    },
-    {
-        "id": 2,
-        "title": "Inventory Management System",
-        "description": "A product inventory management app using Express and Firebase with plain HTML, CSS, and JavaScript for the frontend.",
-        "image": "https://res.cloudinary.com/daog6scxm/image/upload/v1687525689/cms/inventory-management-app/Inventory_Management_App_4_llpjir.webp"
-    },
-    {
-        "id": 3,
-        "title": "User Authentication API",
-        "description": "REST API for login and registration using Express and Firebase, secured with JWT and bcrypt password hashing.",
-        "image": "https://cdn.sanity.io/images/3jwyzebk/production/c098fa07deca1062e013d92cabba4ba7ec7e7f19-1584x988.png"
-    },
-    {
-        "id": 4,
-        "title": "Portfolio Website",
-        "description": "A single-page portfolio application built with React and Material UI to showcase projects and contact information.",
-        "image": "https://uploads.sitepoint.com/wp-content/uploads/2019/04/155530806117.jpg"
-    }
+  {
+    "id": 1,
+    "title": "Task Manager App",
+    "description": "A simple task manager built with Express backend and Firebase database. Allows users to add, update, and delete tasks.",
+    "image": "https://www.chanty.com/blog/wp-content/uploads/2020/12/nTask.png",
+    "details": "A lightweight task management web app where users can organize their daily tasks. Built with Express.js for the backend and Firebase for real-time database functionality. CRUD operations are handled via REST APIs. Designed for simplicity and efficiency.",
+    "skills": ["Express.js", "Firebase Firestore", "Node.js", "JavaScript", "REST API"],
+    "features": [
+      "Add, update, and delete tasks",
+      "Realtime database updates using Firestore",
+      "Simple and intuitive interface",
+      "Hosted on Firebase Hosting",
+      "Modular code structure for scalability"
+    ],
+    "github": "https://github.com/yourusername/task-manager"
+  },
+  {
+    "id": 2,
+    "title": "Inventory Management System",
+    "description": "A product inventory management app using Express and Firebase with plain HTML, CSS, and JavaScript for the frontend.",
+    "image": "https://res.cloudinary.com/daog6scxm/image/upload/v1687525689/cms/inventory-management-app/Inventory_Management_App_4_llpjir.webp",
+    "details": "This system tracks inventory levels, product details, and updates stock in real-time. Built using Firebase as the backend, Express for API routing, and basic HTML/CSS/JS for the frontend, making it lightweight and fast for small businesses.",
+    "skills": ["HTML", "CSS", "JavaScript", "Express.js", "Firebase"],
+    "features": [
+      "Manage product inventory with ease",
+      "Add/edit/delete product entries",
+      "Stock level indicator",
+      "Firebase Firestore integration for persistent storage",
+      "No frameworks used on frontend for performance"
+    ],
+    "github": "https://github.com/yourusername/inventory-management"
+  },
+  {
+    "id": 3,
+    "title": "User Authentication API",
+    "description": "REST API for login and registration using Express and Firebase, secured with JWT and bcrypt password hashing.",
+    "image": "https://cdn.sanity.io/images/3jwyzebk/production/c098fa07deca1062e013d92cabba4ba7ec7e7f19-1584x988.png",
+    "details": "A secure backend service that handles user authentication using Firebase Firestore as the database. Users can register and log in, with passwords hashed using bcrypt and sessions maintained through JWT tokens. Ideal for plugging into any frontend app.",
+    "skills": ["Express.js", "JWT", "Bcrypt", "Firebase", "REST API"],
+    "features": [
+      "User registration with encrypted password storage",
+      "Login route with JWT-based authentication",
+      "Protected routes using middleware",
+      "Firebase for user storage",
+      "Built following REST API standards"
+    ],
+    "github": "https://github.com/yourusername/user-auth-api"
+  },
+  {
+    "id": 4,
+    "title": "Portfolio Website",
+    "description": "A single-page portfolio application built with React and Material UI to showcase projects and contact information.",
+    "image": "https://uploads.sitepoint.com/wp-content/uploads/2019/04/155530806117.jpg",
+    "details": "This is a modern, responsive portfolio SPA built using React and styled with Material UI. It includes sections like About, Projects, and Contact. Animations are handled with Framer Motion, and the layout is mobile-friendly with reusable components.",
+    "skills": ["React.js", "Material UI", "JavaScript", "Framer Motion", "Responsive Design"],
+    "features": [
+      "Single Page Application using React Router",
+      "Fully responsive design",
+      "Framer Motion animations",
+      "Clean and modular UI with MUI components",
+      "Projects dynamically displayed from JSON data"
+    ],
+    "github": "https://github.com/yourusername/portfolio-react"
+  }
 ]

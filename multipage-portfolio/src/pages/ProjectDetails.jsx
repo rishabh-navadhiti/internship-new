@@ -1,6 +1,5 @@
-import { X } from "@mui/icons-material";
-import { useState, useEffect, use } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import {
   Breadcrumbs,
   Box,
@@ -11,154 +10,198 @@ import {
   Button,
   Card,
   CardMedia,
-  CardContent
+  CardContent,
 } from "@mui/material";
-
-import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LaunchIcon from "@mui/icons-material/Launch";
-import StarIcon from "@mui/icons-material/Star";
+import NotFound from "./NotFound";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 const ProjectDetails = () => {
-  const projectId = useParams().projectId;
-  const [data, setData] = useState([]);
+  const { theme } = useContext(ThemeContext);
+
+  const { projectId } = useParams();
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     fetch("/data/projectData.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        console.log(data[projectId]);
+      .then((res) => res.json())
+      .then((projects) => {
+        setData(projects[projectId - 1]);
       });
-  }, []);
+  }, [projectId]);
+
+  if (!data) return <NotFound />;
+
   return (
     <Box
       sx={{
-        
         py: 8,
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         minHeight: "100vh",
       }}
     >
       <Container maxWidth="md">
         <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
+          separator={<NavigateNextIcon fontSize="small"/>}
           aria-label="breadcrumb"
-          sx={{ mb: 4 }}
+          sx={{ mb: 4, color: theme.bodyColor }}
         >
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/" style={{ textDecoration: "none", color: theme.bodyColor }}>
             Home
           </Link>
           <Link
             to="/projects"
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{ textDecoration: "none", color: theme.bodyColor }}
           >
             Projects
           </Link>
-          <Typography color="text.primary">Task Manager App</Typography>
+          <Typography color={theme.bodyColor}>{data.title}</Typography>
         </Breadcrumbs>
 
-        <Card sx={{ boxShadow: 3 }}>
+        <Card sx={{ boxShadow: 3, py: 4, px: 5, borderRadius: 3 }}>
           <CardMedia
             component="img"
             height="240"
-            image="https://via.placeholder.com/800x400?text=Task+Manager+App"
-            alt="Task Manager Screenshot"
+            image={data.image}
+            alt={data.title}
           />
           <CardContent>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
-              Task Manager App
+            <Typography
+              variant="h3"
+              fontWeight="700"
+              sx={{
+                py: 3,
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                mb: 2,
+              }}
+            >
+              {data.title}
             </Typography>
-            <Typography variant="body1" sx={{ mb: 3 }}>
-              A simple yet effective task manager built using Express and
-              Firebase. It allows users to manage their daily tasks by adding,
-              updating, and deleting them. Ideal for individuals looking for a
-              minimal productivity tool.
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 3,
+                fontSize: "1.1rem",
+                lineHeight: 1.5,
+                color: "text.secondary",
+              }}
+            >
+              {data.description}
             </Typography>
 
-            <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-              <Chip label="Express" color="primary" />
-              <Chip label="Firebase" color="secondary" />
-              <Chip label="REST API" />
-              <Chip label="JavaScript" />
-              <Chip label="Node.js" />
-            </Stack>
-
-            <Typography variant="h6" fontWeight="bold" sx={{ mb: 1 }}>
-              Features:
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              sx={{ mb: 1, fontSize: "1.2rem", color: "text.primary" }}
+            >
+              Overview:
             </Typography>
-                          <Box
-                component="ul"
-                sx={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  "& li": {
-                    position: "relative",
-                    paddingLeft: "2rem",
-                    marginBottom: "0.75rem",
-                    fontSize: "1rem",
-                    lineHeight: 1.6,
-                    "&::before": {
-                      content: '"✓"',
-                      position: "absolute",
-                      left: 0,
-                      color: "#4caf50",
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                    },
-                  },
-                }}
+            <Typography
+              variant="body2"
+              sx={{
+                mb: 3,
+                fontSize: "1.1rem",
+                lineHeight: 1.5,
+                color: "text.secondary",
+              }}
+            >
+              {data.details}
+            </Typography>
+
+            {data.skills?.length > 0 && (
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ mb: 3, flexWrap: "wrap" }}
               >
-                <li>User-friendly task list UI</li>
-                <li>CRUD operations using Firebase</li>
-                <li>Express backend with REST API</li>
-                <li>Responsive and mobile-friendly design</li>
-                <li>Real-time sync with Firestore</li>
-              </Box>
+                {data.skills.map((skill, index) => (
+                  <Chip key={index} label={skill} />
+                ))}
+              </Stack>
+            )}
+
+            {data.features?.length > 0 && (
+              <>
+                <Typography variant="h6" fontWeight="bold" sx={{ mb: 1 }}>
+                  Features:
+                </Typography>
+                <Box
+                  component="ul"
+                  sx={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    "& li": {
+                      position: "relative",
+                      paddingLeft: "2rem",
+                      marginBottom: "0.75rem",
+                      fontSize: "1rem",
+                      lineHeight: 1.6,
+                      "&::before": {
+                        content: '"✓"',
+                        position: "absolute",
+                        left: 0,
+                        color: "#4caf50",
+                        fontWeight: "bold",
+                        fontSize: "1.2rem",
+                      },
+                    },
+                  }}
+                >
+                  {data.features.map((feature, index) => (
+                    <li key={index}>
+                      <Typography variant="body1">{feature}</Typography>
+                    </li>
+                  ))}
+                </Box>
+              </>
+            )}
 
             <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={2}
               sx={{ mt: 4 }}
             >
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={<GitHubIcon />}
-                href="https://github.com/your-username/task-manager-app"
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  borderRadius: 3,
-                  py: 1.5,
-                  px: 3,
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  textTransform: "none",
-                  boxShadow: "0 4px 15px rgba(102, 126, 234, 0.4)",
-                  "&:hover": {
-                    background: "linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)",
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 6px 20px rgba(102, 126, 234, 0.5)",
-                  },
-                  transition: "all 0.3s ease",
-                }}
-              >
-                View Source Code
-              </Button>
+              {data.github && (
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<GitHubIcon />}
+                  href={data.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    background: theme.buttonBackground,
+                    color: theme.buttonColor,
+                    borderRadius: 3,
+                    py: 1.5,
+                    px: 3,
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    textTransform: "none",
+                    boxShadow: theme.buttonShadow,
+                    "&:hover": {
+                      background: theme.buttonHoverBackground,
+                      transform: "translateY(-2px)",
+                      boxShadow: theme.buttonHoverShadow,
+                    },
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  View Source Code
+                </Button>
+              )}
               <Button
                 variant="outlined"
                 size="large"
                 startIcon={<LaunchIcon />}
-                href="https://your-demo-link.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
+                disabled
                 sx={{
                   borderRadius: 3,
                   py: 1.5,

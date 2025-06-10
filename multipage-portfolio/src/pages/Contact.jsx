@@ -1,13 +1,18 @@
 import { Card, CardContent, Typography, Box, IconButton, Grid, TextField, Button } from "@mui/material";
 import { Email, Phone, LocationOn } from "@mui/icons-material";
 import { GitHub, LinkedIn } from "@mui/icons-material";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+
+
 
 const Contact = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <Box>
         
         <Box id="contact" sx={{ py: 12, px: {xs: 10, sm: 12, md: '20vw'}}} >
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom sx={{color: theme.headingColor}}>
               Contact Me
             </Typography>
             <Grid container spacing={3}>
@@ -47,7 +52,6 @@ const Contact = () => {
             mx: 'auto',
             py: 4,
             px: 8,
-            background: "linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%)",
           }}
         >
           <CardContent sx={{ p: 4 }}>

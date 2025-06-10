@@ -1,13 +1,17 @@
 import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+
 
 const Footer = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <Box
       sx={{
         py: 3,
         textAlign: "center",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        color: "white",
+        background: theme.headerBackground,
+        color: theme.headerColor,
       }}
     >
       <Typography variant="h6" gutterBottom>
