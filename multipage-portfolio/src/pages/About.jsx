@@ -118,7 +118,7 @@ const About = () => {
     gap: 4,
     px: { xs: 2, sm: 4 },
     py: 4,
-  }}
+  }}  
 >
   {skills.map((skill) => (
     <Card
