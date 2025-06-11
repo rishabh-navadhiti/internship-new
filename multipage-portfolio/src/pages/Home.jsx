@@ -24,7 +24,7 @@ const Home = () => {
           transition={{ duration: 1 }}
         >
           <Avatar
-            src="https://via.placeholder.com/150"
+            src="/image/gojo_dp.jpg"
             sx={{ width: 150, height: 150, margin: "0 auto" }}
           />
           <Typography variant="h3" sx={{ mt: 3, color: theme.headingColor }}>
