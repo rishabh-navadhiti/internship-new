@@ -14,6 +14,8 @@ This is a multipage portfolio website using React and Material UI.
 6. The Individual Project Details page is a protected route which requires login to access
 7. The auth is stored in the browser local storage and  expiries after a certain duration 
 
+---
+
 ### Home page
 
 - Basic details, name pfp and an action button to download resume.
@@ -38,3 +40,5 @@ This is a multipage portfolio website using React and Material UI.
 - Contains all the details of a particular project
 - A demo image
 - Action buttons linking to the github page and the live demo of the project
+
+---
