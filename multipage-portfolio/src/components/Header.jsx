@@ -7,7 +7,7 @@ import {
   Typography,
   Stack,
   Tooltip,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
@@ -16,26 +16,30 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { ThemeContext } from "../contexts/ThemeContext";
 
-import { useAuth } from "../contexts/AuthContext"; 
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
-  
-
   // timer for testing
   const { isAuthenticated } = useAuth();
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(null);
   useEffect(() => {
-    if (isAuthenticated) {
-      setInterval(() => {
-        setTimer(timer - 1)
-      }, 1000)
-    } else {
-      setTimer(60)
-    }
-  }, [isAuthenticated])
+    const intervalId = setInterval(() => {
+      const expire = localStorage.getItem("loginExpire");
+
+      if (expire && !isNaN(Number(expire))) {
+        const expireTime = Number(expire);
+        const remainingTime = expireTime - Date.now();
+        const seconds = Math.floor(remainingTime / 1000);
+        setTimer(isNaN(seconds) ? null : seconds);
+      } else {
+        setTimer(null);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // timer for testing
-
 
   const { theme, themeMode, toggleTheme } = useContext(ThemeContext);
 
@@ -57,7 +61,12 @@ const Header = () => {
             color="inherit"
             component={NavLink}
             to="/"
-            sx={{ "&.active": { color: theme.headerActiveColor, fontWeight: "bold" } }}
+            sx={{
+              "&.active": {
+                color: theme.headerActiveColor,
+                fontWeight: "bold",
+              },
+            }}
           >
             Home
           </Button>
@@ -65,7 +74,12 @@ const Header = () => {
             color="inherit"
             component={NavLink}
             to="/about"
-            sx={{ "&.active": { color: theme.headerActiveColor, fontWeight: "bold" } }}
+            sx={{
+              "&.active": {
+                color: theme.headerActiveColor,
+                fontWeight: "bold",
+              },
+            }}
           >
             About
           </Button>
@@ -73,7 +87,12 @@ const Header = () => {
             color="inherit"
             component={NavLink}
             to="/projects"
-            sx={{ "&.active": { color: theme.headerActiveColor, fontWeight: "bold" } }}
+            sx={{
+              "&.active": {
+                color: theme.headerActiveColor,
+                fontWeight: "bold",
+              },
+            }}
           >
             Projects
           </Button>
@@ -81,19 +100,23 @@ const Header = () => {
             color="inherit"
             component={NavLink}
             to="/contact"
-            sx={{ "&.active": { color: theme.headerActiveColor, fontWeight: "bold" } }}
+            sx={{
+              "&.active": {
+                color: theme.headerActiveColor,
+                fontWeight: "bold",
+              },
+            }}
           >
             Contact
           </Button>
-          <Tooltip title={`Switch to ${themeMode === "light" ? "dark" : "light"} mode`}>
+          <Tooltip
+            title={`Switch to ${themeMode === "light" ? "dark" : "light"} mode`}
+          >
             <IconButton onClick={toggleTheme} color="inherit" sx={{ ml: 2 }}>
               {themeMode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
             </IconButton>
           </Tooltip>
-          {
-            timer < 60 ? <Button color="white">{timer}</Button> : null
-          }
-          
+          {typeof timer === "number" && <Button color="white">{timer}</Button>}{" "}
         </Box>
       </Toolbar>
     </AppBar>
