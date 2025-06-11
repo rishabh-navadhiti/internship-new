@@ -7,7 +7,7 @@ const path = require('path');
 // fire base admin initialization and service account
 
 const admin = require('firebase-admin');
-const serviceAccount = require('/home/rishabh/Development/internship-new/task-app/test-project-f4196-firebase-adminsdk-fbsvc-0aa5d1813e.json');
+const serviceAccount = require('/home/rishabh/Development/internship-new/task-app/test-project-f4196-firebase-adminsdk-fbsvc-0457eb4b60.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
