@@ -2,15 +2,17 @@
 
 This is a multipage portfolio website using React and Material UI.
 
+---
+
 ### Key Details
 
-- All components like header, footer and page components are based on Material UI and MUI icons
-- The site contains mainly `Home` page, `About` page, `Projects` page and `Contact Page`
-- Additional Login Page, Project Details page and 404 Not Found page are also present
-- Navigation is done through the header and routes are handled by react router dom package
-- The site has a basic authentication system.
-- The Individual Project Details page is a protected route which requires login to access
-- The auth is stored in the browser local storage and  expiries after a certain duration 
+1. All components like header, footer and page components are based on Material UI and MUI icons
+2. The site contains mainly `Home` page, `About` page, `Projects` page and `Contact Page`
+3. Additional Login Page, Project Details page and 404 Not Found page are also present
+4. Navigation is done through the header and routes are handled by react router dom package
+5. The site has a basic authentication system.
+6. The Individual Project Details page is a protected route which requires login to access
+7. The auth is stored in the browser local storage and  expiries after a certain duration 
 
 ### Home page
 
