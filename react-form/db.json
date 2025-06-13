@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": "123",
+      "name": "Test",
+      "email": "test123@example.com",
+      "age": 20,
+      "gender": "male",
+      "subscribe": true
+    },
+    {
+      "id": "8d3a",
+      "name": "Rishabh",
+      "email": "rishabh4883@gmail.com",
+      "age": "43",
+      "gender": "male",
+      "subscribe": true
+    },
+    {
+      "id": "8f14",
+      "name": "example",
+      "email": "eg@gm.com",
+      "age": "32",
+      "gender": "female",
+      "subscribe": false
+    },
+    {
+      "id": "4384",
+      "name": "Pant",
+      "email": "pant@gmail.com",
+      "age": "12",
+      "gender": "others",
+      "subscribe": false
+    }
+  ]
+}

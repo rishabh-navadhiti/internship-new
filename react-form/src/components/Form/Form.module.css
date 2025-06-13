@@ -1,0 +1,71 @@
+
+.form {
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 40px;
+    background-color: rgb(225, 195, 160);
+    border-radius: 10px;
+    margin-bottom: 40px;
+    gap: 30px;
+}
+
+.heading {
+    color: rgb(90, 50, 30);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.form > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input,.select {
+    border: 0;
+    background-color: rgb(245, 230, 210) ;
+    padding: 15px 8px;
+    border-radius: 5px;
+}
+
+.select option {
+    padding: 10px 5px;
+}
+
+.input:focus , .select:focus {
+outline: none;
+      border: 1px solid rgb(123, 123, 123);
+}
+
+.form  .newsletter {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    color: rgb(70, 50, 40);
+}
+
+.form .button {
+    border: 0;
+    padding: 15px 5px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: wheat;
+    background-color: rgb(160, 120, 90);
+    border-radius: 8px;
+}
+
+.button:hover {
+    background-color: rgb(120, 90, 70);
+}
+
+.form > div div {
+    color: rgb(200, 70, 60) ;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 6px;
+}

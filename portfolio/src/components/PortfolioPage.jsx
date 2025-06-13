@@ -31,14 +31,14 @@ import {
 
 // backgroundColor:'#1976d2' #764ba2,
 
-const skills = [
-  { name: "JavaScript", level: 85, icon: <Code /> },
-  { name: "React.js", level: 80, icon: <Web /> },
-  { name: "Node.js", level: 75, icon: <CloudUpload /> },
-  { name: "HTML/CSS", level: 90, icon: <Web /> },
-  { name: "Firebase", level: 70, icon: <Storage /> },
-  { name: "Git/GitHub", level: 80, icon: <GitHub /> },
-];
+  const skills = [
+    { name: "JavaScript", level: 85, icon: <Code /> },
+    { name: "React.js", level: 80, icon: <Web /> },
+    { name: "Node.js", level: 75, icon: <CloudUpload /> },
+    { name: "HTML/CSS", level: 90, icon: <Web /> },
+    { name: "Firebase", level: 70, icon: <Storage /> },
+    { name: "Git/GitHub", level: 80, icon: <GitHub /> },
+  ];
 
 export default function PortfolioPage() {
   const homeRef = useRef(null);

@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = () => {
-    localStorage.setItem("loginExpire", Date.now() + 20 * 1000);
+    localStorage.setItem("loginExpire", Date.now() + 200 * 1000);
     setIsAuthenticated(true);
   };
 
