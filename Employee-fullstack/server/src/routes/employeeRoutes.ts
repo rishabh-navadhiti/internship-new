@@ -13,4 +13,13 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const employees = await Employee.find();
+    res.json(employees);
+  } catch (err: any) {
+    res.status(500).json({error: 'Failed to get data from DB', message: err.message});
+  }
+});
+
 export default router;
