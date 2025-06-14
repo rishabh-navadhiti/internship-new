@@ -32,5 +32,26 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updated = await Employee.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    if (!updated) res.status(404).json({ error: 'Not found' });
+    res.json(updated);
+  }  catch(err: any) {
+    res.status(400).json({ error: 'Could not update the id', message: err.message });
+  }
+});
+
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await Employee.findByIdAndDelete(req.params.id);
+    if (!deleted) res.status(404).json({ error: 'Not found' });
+    res.json({ message: 'Deleted' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 export default router;
