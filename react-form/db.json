@@ -31,6 +31,14 @@
       "age": "12",
       "gender": "others",
       "subscribe": false
+    },
+    {
+      "id": "a329",
+      "name": "Rish",
+      "email": "ri@123.com",
+      "age": 12,
+      "gender": "male",
+      "subscribe": false
     }
   ]
 }

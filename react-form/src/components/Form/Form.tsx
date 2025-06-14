@@ -1,33 +1,44 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import styles from "./Form.module.css";
 
-const Form = () => {
-    const queryClient = useQueryClient()
-  // useMutation hook, mutationFn, provide newData and then call axios post request
-  const mutation = useMutation({
-    mutationFn: (newData) =>
-      axios
-        .post("http://localhost:3001/users", newData)
-        .then((res) => res.data),
-    onSuccess: () => {
-        reset()
-        queryClient.invalidateQueries({queryKey: ['users']})
-    },
-  });
+// form fields type
+interface FormData {
+  name: string;
+  email: string;
+  age?: number;
+  gender: string;
+  subscribe?: boolean;
+}
 
-  // react hook form, useForm return object wiht props register, handleSubmit, formState: {errors} and reset
+//expected response type from server
+interface UserResponse {
+  message: string;
+}
+
+const Form = () => {
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
 
-  // submit callback for handleSubmit of RHF
-  const onSubmit = (data) => {
-    console.log(data);
+  const mutation = useMutation<UserResponse, Error, FormData>({
+    mutationFn: (newData) =>
+      axios
+        .post("http://localhost:3001/users", newData)
+        .then((res) => res.data),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     mutation.mutate(data);
   };
 
@@ -71,8 +82,9 @@ const Form = () => {
             placeholder="Age"
             type="number"
             {...register("age", {
+              valueAsNumber: true,
               validate: (value) =>
-                (value > 1 && value <= 100) || "Age must be between 1 to 100",
+                value > 1 && value <= 100 || "Age must be between 1 to 100",
             })}
           />
           {errors.age && <div>{errors.age.message}</div>}
@@ -81,7 +93,6 @@ const Form = () => {
         <div>
           <select
             className={styles.select}
-            required
             {...register("gender", { required: "Your gender is required" })}
           >
             <option value="">--Select Gender--</option>
