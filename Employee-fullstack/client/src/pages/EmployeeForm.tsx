@@ -25,6 +25,8 @@ const EmployeeForm = () => {
     });
 
     const onSubmit = (data) => {
+        console.log("*****!!!!!!!!"+ data.name);
+        
         mutation.mutate(data);
     }
 
@@ -77,7 +79,7 @@ const EmployeeForm = () => {
                 render={({ field }) => (
                   <NumberInput.Root
                     value={field.value?.toString() ?? ""}
-                    onValueChange={(val) => field.onChange(Number(val))}
+                    onValueChange={({ valueAsNumber }) => field.onChange(valueAsNumber)}
                     step={1}
                     min={0}
                   >
