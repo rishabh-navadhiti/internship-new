@@ -4,7 +4,7 @@ import { ColorModeButton } from "../ui/color-mode";
 
 export default function Header() {
   return (
-    <Box as="header" w="100%" px="2" py={4} borderBottomWidth={1} borderColor="gray.200" md={{px: 10}}> 
+    <Box as="header" w="100%" px="2" py={4} borderBottomWidth={1} borderColor="gray.200" md={{px: 10}} bg="blue.subtle"> 
       <Flex align="center">
         <Box>
           <Heading size="md" fontWeight="bold">
