@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Alice Johnson",
+    "age": 30,
+    "email": "alice@example.com",
+    "role": "Intern"
+  },
+  {
+    "name": "Bob Smith",
+    "age": 40,
+    "email": "bob@example.com",
+    "role": "Manager"   
+  }
+]
+
+
+

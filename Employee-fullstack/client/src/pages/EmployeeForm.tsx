@@ -1,7 +1,11 @@
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import {
+  useAddEmployee,
+  useUpdateEmployee,
+  useEmployee,
+} from "../hooks/useEmployees";
 // chakra ui
 import {
   Button,
@@ -15,12 +19,13 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { Toaster, toaster } from "../components/ui/toaster";
-import { useForm, Controller } from "react-hook-form";
 
-const EmployeeForm = ({ id }) => {
-  console.log("id:   " + id);
-  
+const EmployeeForm = () => {
+  // id for edit if present
+  const { id } = useParams();
+
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -28,87 +33,102 @@ const EmployeeForm = ({ id }) => {
     control,
     formState: { errors },
   } = useForm();
-  const queryClient = useQueryClient();
 
+  // tanstack mutation and queries from the hook file, to get, post and put
+  const addMutation = useAddEmployee();
+  const updateMutation = useUpdateEmployee();
+  const { data, isLoading } = useEmployee(id);
 
+  // const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: (newData) =>
-      axios
-        .post("http://localhost:3000/employees", newData)
-        .then((res) => res.data),
-    onSuccess: () => {
-      reset();
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-      toaster.create({
-        id: "success",
-        title: "Employee Added",
-        duration: 3000,
-        type: "success",
-      });
-    },
-  });
+  // const addMutation = useMutation({
+  //   mutationFn: (newData) =>
+  //     axios.post(`${API_URL}/employees`, newData).then((res) => res.data),
+  //   onSuccess: () => {
+  //     reset();
+  //     queryClient.invalidateQueries({ queryKey: ["employees"] });
 
+  //     toaster.create({
+  //       id: "success",
+  //       title: "Employee Added",
+  //       duration: 3000,
+  //       type: "success",
+  //     });
+  //   },
+  // });
 
-  const updateMutation = useMutation({
-    mutationFn: ({ id, formData }) =>
-      axios.put(`http://localhost:3000/employees/${id}`, formData).then((res) => res.data),
-    onSuccess: () => {
-      toaster.create({
-        id: "updated",
-        title: "Employee Updated",
-        duration: 3000,
-        type: "success",
-      });
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-      navigate("/");
-    },
-  });
-  
-  
-   const { isLoading, data } = useQuery({
-    queryKey: ["employee", id],
-    queryFn: () =>{ console.log('getting');
-    
-      return axios.get(`http://localhost:3000/employees/${id}`).then((res) => res.data)},
-    enabled: !!id,
-    // onSuccess: (data) => {
-    //   console.log("success + ");
-      
-    //   reset({
-    //     name: data.name,
-    //     email: data.email,
-    //     age: data.age,
-    //     role: data.role,
-    //   });
-    // },
-        
-  });
+  // const updateMutation = useMutation({
+  //   mutationFn: ({ id, formData }) =>
+  //     axios.put(`${API_URL}/employees/${id}`, formData).then((res) => res.data),
+  //   onSuccess: () => {
+  //     toaster.create({
+  //       id: "updated",
+  //       title: "Employee Updated",
+  //       duration: 3000,
+  //       type: "success",
+  //     });
+  //     queryClient.invalidateQueries({ queryKey: ["employees"] });
+  //     queryClient.invalidateQueries({ queryKey: ["employee", id] });
+  //     navigate("/");
+  //   },
+  // });
 
+  // const { isLoading, data } = useQuery({
+  //   queryKey: ["employee", id],
+  //   queryFn: () => {
+  //     console.log("getting");
+
+  //     return axios.get(`${API_URL}/employees/${id}`).then((res) => res.data);
+  //   },
+  //   enabled: !!id,
+  // });
+
+  // on form submission
   const onSubmit = (formData) => {
-    console.log('formmmmm ' + formData.name, formData.email);
-    
+    // if its edit form
     if (id) {
-      const obj = {id: id, formData: formData}
-      updateMutation.mutate({ id, formData });
-    } else {
-      console.log("its meee");
-      
-      mutation.mutate(formData);
+      updateMutation.mutate(
+        { id, formData },
+        {
+          onSuccess: () => {
+            toaster.create({
+              id: "updated",
+              title: "Employee Updated",
+              duration: 3000,
+              type: "success",
+            });
+            navigate("/");
+          },
+        }
+      );
+    }
+    // if its add new form
+    else {
+      addMutation.mutate(formData, {
+        onSuccess: () => {
+          reset();
+          toaster.create({
+            id: "added",
+            title: "Employee Added",
+            duration: 3000,
+            type: "success",
+          });
+        },
+      });
     }
   };
 
-
+  // reset form with fetched values for edit form
   useEffect(() => {
-  if (data) {
-    reset({
-      name: data.name ?? "",
-      email: data.email ?? "",
-      age: data.age ?? "",
-      role: data.role ?? "",
-    });
-  }
-}, [data, reset]);
+    if (data) {
+      reset({
+        name: data.name ?? "",
+        email: data.email ?? "",
+        age: data.age ?? "",
+        role: data.role ?? "",
+      });
+    }
+  }, [data, reset]);
 
   return (
     <Box>
@@ -128,6 +148,7 @@ const EmployeeForm = ({ id }) => {
         <Heading size="lg" mb={6} textAlign="center" color="fg">
           {id ? "Edit Employee" : "Add New Employee"}
         </Heading>
+
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Fieldset.Root size="md" maxW="md" gap="6" mx="auto">
             <Stack align="center">
@@ -213,7 +234,7 @@ const EmployeeForm = ({ id }) => {
                 )}
               </Field.Root>
 
-              {/* Role - NativeSelect */}
+              {/* Role  */}
               <Field.Root invalid={!!errors.role} width="full">
                 <Field.Label color="blue.600" _dark={{ color: "blue.300" }}>
                   Role
@@ -240,6 +261,7 @@ const EmployeeForm = ({ id }) => {
               </Field.Root>
             </Fieldset.Content>
 
+            {/* submit button */}
             <Button
               type="submit"
               colorPalette="blue"
@@ -254,8 +276,16 @@ const EmployeeForm = ({ id }) => {
           </Fieldset.Root>
         </form>
       </Box>
-      <Button onClick={() => navigate("/")} mt="5"   loading={mutation.isPending || updateMutation.isPending}>
-        View Records
+
+      <Button
+        onClick={() => navigate("/")}
+        mt="10"
+        mb="10"
+        display="block"
+        mx="auto"
+        loading={addMutation.isPending || updateMutation.isPending}
+      >
+        View Employee Records
       </Button>
       <Toaster />
     </Box>

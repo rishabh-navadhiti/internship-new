@@ -5,7 +5,6 @@ import EmployeeForm from './pages/EmployeeForm';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { Box } from '@chakra-ui/react';
-import EditForm from './pages/EditForm';
 
 function App() {
   
@@ -16,8 +15,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<EmployeeTable />} />
-        <Route path='/add' element={<EmployeeForm id={null}/>} />
-        <Route path='/edit/:id' element={<EditForm />} />
+        <Route path='/add' element={<EmployeeForm />} />
+        <Route path='/edit/:id' element={<EmployeeForm />} />
       </Routes>
       <Footer />
     </Box>

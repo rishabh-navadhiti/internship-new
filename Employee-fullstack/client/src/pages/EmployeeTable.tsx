@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -14,6 +15,7 @@ import {
   Stack,
   Heading,
   Badge,
+  SkeletonText
 } from "@chakra-ui/react";
 import { Toaster, toaster } from "../components/ui/toaster";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
@@ -34,16 +36,17 @@ const EmployeeTable = () => {
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
+
   const { isLoading, error, data } = useQuery({
     queryKey: ["employees"],
     queryFn: () =>
-      axios.get("http://localhost:3000/employees").then((res) => res.data),
+      axios.get(`${API_URL}/employees`).then((res) => res.data),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) =>
       axios
-        .delete(`http://localhost:3000/employees/${id}`)
+        .delete(`${API_URL}/employees/${id}`)
         .then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
@@ -56,7 +59,11 @@ const EmployeeTable = () => {
     },
   });
 
-  if (isLoading) return <Box textAlign="center">Loading...</Box>;
+  if (isLoading) return (
+  <Box  display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <SkeletonText noOfLines={4} gap="4" maxW={"1000px"}/>
+  </Box>
+  );
   if (error) return <Box textAlign="center">Error loading data.</Box>;
 
   console.log(data);
@@ -64,19 +71,19 @@ const EmployeeTable = () => {
   const getRoleColor = (role: string): string => {
     switch (role) {
       case "Admin":
-        return "#red";
+        return "red";
       case "Developer":
-        return "orange"; // Blue
+        return "orange"; 
       case "Intern":
-        return "yellow"; // Amber/Orange
+        return "yellow"; 
       case "Manager":
-        return "green"; // Emerald/Green
+        return "green"; 
       case "Embedded Engineer":
-        return "teal"; // Red
+        return "teal"; 
       case "DevOps":
-        return "blue"; // Cyan
+        return "blue";
       default:
-        return "gray"; // Gray
+        return "gray";
     }
   };
 
@@ -101,7 +108,7 @@ const EmployeeTable = () => {
         <Table.ScrollArea>
           <Table.Root size="sm" variant="outline" borderWidth="2px" bg="bg">
             <Table.Header>
-              <Table.Row bg="bg.emphasized">
+              <Table.Row bg="bg.emphasized" >
                 <Table.ColumnHeader>Name</Table.ColumnHeader>
                 <Table.ColumnHeader>Age</Table.ColumnHeader>
                 <Table.ColumnHeader>Email</Table.ColumnHeader>
