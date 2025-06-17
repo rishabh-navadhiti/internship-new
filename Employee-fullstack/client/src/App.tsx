@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import EmployeeTable from './pages/EmployeeTable';
 import EmployeeForm from './pages/EmployeeForm';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import { Box } from '@chakra-ui/react';
 import EditForm from './pages/EditForm';
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/add' element={<EmployeeForm id={null}/>} />
         <Route path='/edit/:id' element={<EditForm />} />
       </Routes>
+      <Footer />
     </Box>
   )
 }

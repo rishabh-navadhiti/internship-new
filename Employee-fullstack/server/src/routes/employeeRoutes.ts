@@ -4,6 +4,7 @@ import Employee from '../models/Employee';
 const router = Router();
 
 router.post('/', async (req, res) => {
+    console.log("Incoming POST body:", req.body); 
   try {
     const employee = new Employee(req.body);
     await employee.save();

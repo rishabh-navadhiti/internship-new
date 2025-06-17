@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 // chakra ui
 import {
   Button,
@@ -17,6 +18,8 @@ import { Toaster, toaster } from "../components/ui/toaster";
 import { useForm, Controller } from "react-hook-form";
 
 const EmployeeForm = ({ id }) => {
+  console.log("id:   " + id);
+  
   const navigate = useNavigate();
   const {
     register,
@@ -26,6 +29,9 @@ const EmployeeForm = ({ id }) => {
     formState: { errors },
   } = useForm();
   const queryClient = useQueryClient();
+
+
+
   const mutation = useMutation({
     mutationFn: (newData) =>
       axios
@@ -43,48 +49,66 @@ const EmployeeForm = ({ id }) => {
     },
   });
 
+
   const updateMutation = useMutation({
-    mutationFn: ({ id, updatedData }) =>
-      axios.put(`http://localhost:3000/employees/${id}`, updatedData).then((res) => res.data),
+    mutationFn: ({ id, formData }) =>
+      axios.put(`http://localhost:3000/employees/${id}`, formData).then((res) => res.data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
       toaster.create({
         id: "updated",
         title: "Employee Updated",
         duration: 3000,
         type: "success",
       });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
       navigate("/");
     },
   });
   
   
-   const { isLoading } = useQuery({
+   const { isLoading, data } = useQuery({
     queryKey: ["employee", id],
     queryFn: () =>{ console.log('getting');
     
       return axios.get(`http://localhost:3000/employees/${id}`).then((res) => res.data)},
     enabled: !!id,
-    onSuccess: (data) => {
-      console.log("success + ");
+    // onSuccess: (data) => {
+    //   console.log("success + ");
       
-      reset({
-        name: data.name,
-        email: data.email,
-        age: data.age,
-        role: data.role,
-      });
-    },
+    //   reset({
+    //     name: data.name,
+    //     email: data.email,
+    //     age: data.age,
+    //     role: data.role,
+    //   });
+    // },
         
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (formData) => {
+    console.log('formmmmm ' + formData.name, formData.email);
+    
     if (id) {
-      updateMutation.mutate({ id, data });
+      const obj = {id: id, formData: formData}
+      updateMutation.mutate({ id, formData });
     } else {
-      mutation.mutate(data);
+      console.log("its meee");
+      
+      mutation.mutate(formData);
     }
   };
+
+
+  useEffect(() => {
+  if (data) {
+    reset({
+      name: data.name ?? "",
+      email: data.email ?? "",
+      age: data.age ?? "",
+      role: data.role ?? "",
+    });
+  }
+}, [data, reset]);
 
   return (
     <Box>
