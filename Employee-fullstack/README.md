@@ -1,6 +1,5 @@
 # Employee Management Full-Stack App
 
-> Full-Stack CRUD Assignment for Interns
 
 This is a full-stack web application to manage employee records using a MERN stack approach with TypeScript. It has a form for creating and editing employees and a table for viewing, updating, and deleting records.
 
