@@ -1,8 +1,3 @@
-# Employee Management App
-
-
----
-
 # Employee Management Full-Stack App
 
 > Full-Stack CRUD Assignment for Interns
