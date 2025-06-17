@@ -176,7 +176,7 @@ const EmployeeForm = ({ id }) => {
                 )}
               </Field.Root>
 
-              {/* Age - Chakra v3 NumberInput with RHF Controller */}
+              {/* Age  */}
               <Field.Root invalid={!!errors.age} width="full">
                 <Field.Label color="blue.600" _dark={{ color: "blue.300" }}>
                   Age
@@ -191,9 +191,10 @@ const EmployeeForm = ({ id }) => {
                   }}
                   render={({ field }) => (
                     <NumberInput.Root
-                      value={field.value || ""}
+                      name={field.name}
+                      value={field.value}
                       onValueChange={({ valueAsNumber }) => {
-                        field.onChange(valueAsNumber || "");
+                        field.onChange(valueAsNumber);
                       }}
                       step={1}
                       min={1}

@@ -12,7 +12,7 @@ function App() {
 
   return (
 
-    <Box bg="bg.panel" minH="100vh">
+    <Box bg="bg.panel" minH="100vh" display={"flex"} flexDirection={"column"} justifyContent={"space-between"}>
       <Header />
       <Routes>
         <Route path='/' element={<EmployeeTable />} />

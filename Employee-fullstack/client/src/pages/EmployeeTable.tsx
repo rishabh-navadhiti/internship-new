@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,8 @@ import {
   Button,
   HStack,
   IconButton,
+  Pagination,
+  ButtonGroup,
   Table,
   Stack,
   Heading,
@@ -14,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { Toaster, toaster } from "../components/ui/toaster";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 interface Employee {
   _id: number;
@@ -25,6 +29,8 @@ interface Employee {
 
 // main comp
 const EmployeeTable = () => {
+  const [page, setPage] = useState(1);
+
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -74,14 +80,20 @@ const EmployeeTable = () => {
     }
   };
 
-
-
   const handleDelete = (id: number) => {
     deleteMutation.mutate(id);
   };
 
+  // handle pagination
+  // page
+  const pageSize = 6;
+  const startItem = (page - 1) * pageSize;
+  const endItem = startItem + pageSize;
+  const visibleData = data.slice(startItem, endItem);
+  const count = data.length;
+
   return (
-    <Box maxW="1000px" mx="auto" px={4} py={8}>
+    <Box maxW="1000px" mx="auto" px={4} py={8} width={"100%"}>
       <Stack width="full" gap={5}>
         <Heading size="lg" textAlign="center">
           Employee List
@@ -100,7 +112,7 @@ const EmployeeTable = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {data.map((emp: Employee) => (
+              {visibleData.map((emp: Employee) => (
                 <Table.Row key={emp._id}>
                   <Table.Cell>{emp.name}</Table.Cell>
                   <Table.Cell>{emp.age}</Table.Cell>
@@ -129,7 +141,11 @@ const EmployeeTable = () => {
                       >
                         <FiEdit2 />
                       </IconButton>
-                      <DeleteDialog id={emp._id} handleDelete={handleDelete} name={emp.name}/>
+                      <DeleteDialog
+                        id={emp._id}
+                        handleDelete={handleDelete}
+                        name={emp.name}
+                      />
                     </HStack>
                   </Table.Cell>
                 </Table.Row>
@@ -137,6 +153,36 @@ const EmployeeTable = () => {
             </Table.Body>
           </Table.Root>
         </Table.ScrollArea>
+
+        <Pagination.Root
+          count={count}
+          page={page}
+          pageSize={pageSize}
+          onPageChange={(e) => setPage(e.page)}
+        >
+          <ButtonGroup variant="ghost" size="sm">
+            <Pagination.PrevTrigger asChild>
+              <IconButton>
+                <IoChevronBackOutline />
+              </IconButton>
+            </Pagination.PrevTrigger>
+
+            <Pagination.Items
+              render={(page) => (
+                <IconButton variant={{ base: "ghost", _selected: "outline" }}>
+                  {page.value}
+                </IconButton>
+              )}
+            />
+
+            <Pagination.NextTrigger asChild>
+              <IconButton>
+                <IoChevronForwardOutline />
+              </IconButton>
+            </Pagination.NextTrigger>
+          </ButtonGroup>
+        </Pagination.Root>
+
         <Button
           width="max-content"
           px="10"
@@ -153,9 +199,6 @@ const EmployeeTable = () => {
 
 export default EmployeeTable;
 
-
-
-
 import { CloseButton, Dialog, Portal } from "@chakra-ui/react";
 
 const DeleteDialog = ({ handleDelete, id, name }) => {
@@ -166,7 +209,7 @@ const DeleteDialog = ({ handleDelete, id, name }) => {
           aria-label="Delete"
           size="sm"
           variant="ghost"
-          colorPalette="red"          
+          colorPalette="red"
         >
           <FiTrash2 />
         </IconButton>
@@ -179,15 +222,15 @@ const DeleteDialog = ({ handleDelete, id, name }) => {
               <Dialog.Title>Delete Employee</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <p>
-                Delete employee details of {`${name}`}?
-              </p>
+              <p>Delete employee details of {`${name}`}?</p>
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
                 <Button variant="outline">Cancel</Button>
               </Dialog.ActionTrigger>
-              <Button onClick={() => handleDelete(id)} colorPalette="red">Delete</Button>
+              <Button onClick={() => handleDelete(id)} colorPalette="red">
+                Delete
+              </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size="sm" />
