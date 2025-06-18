@@ -1,54 +1,41 @@
-# React + TypeScript + Vite
+# React Client app for Employee Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Frontend - React + Chakra UI (TypeScript)
 
-Currently, two official plugins are available:
+### Tools Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* React with Vite
+* Chakra UI v3
+* React Hook Form
+* React Router DOM
+* Axios
+* TanStack Query
 
-## Expanding the ESLint configuration
+### Pages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **`EmployeeTable.tsx`** - Fetches and displays all employees in a table format
+* **`EmployeeForm.tsx`** - Handles creation/editing of employees
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Data and API
+
+Axios is used to make api calls to the servers.
+The API calls and Async state management is handled by `react-query` library from Tanstack.
+It automatically manages server state (i.e external to react).
+Used for data fetching, caching and background updates/invalidation to automatically update the data in the raect app when changes are made in the server.
+
+
+### Components
+
+
+* Reusable `Header`, `Footer`, `Dialog`, `Toaster` components
+
+### Dev Scripts
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Runs on `localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
